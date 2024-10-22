@@ -320,7 +320,73 @@ nav a {
 }
 
 nav img {
-    max-height: 30px; /* Điều chỉnh kích thước ảnh nếu cần */
+    max-height: 30px;
+}
+
+/* Thêm vào phần điều hướng (navbar) */
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-md);
+    background-color: #007bff; /* Màu nền xanh */
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.nav-right {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: white;
+    text-decoration: none;
+}
+
+.nav-link {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: var(--space-xs);
+}
+
+.nav-link.active {
+    text-decoration: underline;
+}
+
+.btn {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--round-sm);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn--outline {
+    color: white;
+    border: 2px solid white;
+    background-color: transparent;
+    padding: var(--space-xs) var(--space-sm);
+}
+
+.btn--outline:hover {
+    background-color: white;
+    color: #007bff;
+    border-color: white;
+}
+
+.btn--warning {
+    color: white;
+    background-color: #dc3545;
+    border: 2px solid #dc3545;
 }
 
 @media screen and (max-width: 525px) {
