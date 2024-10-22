@@ -8,7 +8,7 @@ const Intro = () => {
   const [registerUserName, setRegisterUserName] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); // State cho xác nhận mật khẩu
-  const [message, setMessage] = useState(""); // State cho thông báo
+  const [message] = useState(""); // State cho thông báo
   
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ const Intro = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (registerPassword !== confirmPassword) {
-      setMessage("Mật khẩu và xác nhận mật khẩu không khớp!");
+      toast.error("Mật khẩu và xác nhận mật khẩu không khớp!");
       return;
     }
     
