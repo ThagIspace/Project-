@@ -5,7 +5,7 @@ import demo from "../assets/img/demologo.png";
 
 const Nav = ({ userName }) => {
     return (
-      <nav>
+      <nav className="">
         <NavLink
           to="/"
           aria-label="Go to home"
@@ -20,7 +20,7 @@ const Nav = ({ userName }) => {
               action="logout"
               onSubmit={(event) => {
                 // eslint-disable-next-line no-restricted-globals
-                if (!confirm("Delete user and all data?")) {
+                if (!confirm("Bạn muốn đăng xuất?")) {
                   event.preventDefault()
                 }
               }}

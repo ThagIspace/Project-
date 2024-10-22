@@ -312,6 +312,8 @@ nav {
   max-width: 1500px;
   margin-inline: auto;
   background: #ffffff;
+  border-radius: 15px;
+  margin-top: 15px;
 }
 
 nav a {

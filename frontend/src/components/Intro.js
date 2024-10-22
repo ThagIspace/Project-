@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Form, } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Intro = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [registerUserName, setRegisterUserName] = useState(""); // State riêng cho đăng ký
-  const [registerPassword, setRegisterPassword] = useState(""); // State riêng cho đăng ký
-
+  const [registerUserName, setRegisterUserName] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // State cho xác nhận mật khẩu
+  const [message, setMessage] = useState(""); // State cho thông báo
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:5000/login", {
@@ -18,31 +21,35 @@ const Intro = () => {
     });
     const data = await response.json();
     if (response.ok) {
-      console.log("Login successful!", data);
-      const formattedUserName = JSON.stringify(userName); // Đảm bảo userName nằm trong dấu nháy kép
+      toast.success("Đăng nhập thành công!");
+      const formattedUserName = JSON.stringify(userName);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("userName", formattedUserName); // Lưu vào localStorage
-      window.location.reload()
+      localStorage.setItem("userName", formattedUserName);
+      window.location.reload();
     } else {
-      console.error(data.error);
+      toast.error(`Vui lòng kiểu tra lại thông tin đăng nhập: ${data.error}`);
     }
   };
-  
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (registerPassword !== confirmPassword) {
+      setMessage("Mật khẩu và xác nhận mật khẩu không khớp!");
+      return;
+    }
+    
     const response = await fetch("http://localhost:5000/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userName: registerUserName, password: registerPassword }), // Sử dụng state riêng cho đăng ký
+      body: JSON.stringify({ userName: registerUserName, password: registerPassword }),
     });
     const data = await response.json();
     if (response.ok) {
-      console.log("Registration successful!", data);
+      toast.success("Đăng ký thành công!");
     } else {
-      console.error(data.error);
+      toast.error(`Đăng ký thất bại: ${data.error}`);
     }
   };
 
@@ -55,13 +62,16 @@ const Intro = () => {
         </h1>
       </div>
 
+      {/* Hiển thị thông báo */}
+      {message && <p className="message">{message}</p>}
+
       <div className="form-container">
         <h2>Đăng nhập</h2>
         <Form onSubmit={handleLogin}>
           <input
             type="text"
             value={userName}
-            onChange={(e) => setUserName(e.target.value)} // Cập nhật state cho đăng nhập
+            onChange={(e) => setUserName(e.target.value)}
             placeholder="Tên đăng nhập"
             aria-label="Your Username"
             autoComplete="username"
@@ -70,7 +80,7 @@ const Intro = () => {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)} // Cập nhật state cho đăng nhập
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Mật khẩu"
             aria-label="Your Password"
             autoComplete="current-password"
@@ -87,8 +97,8 @@ const Intro = () => {
         <Form onSubmit={handleRegister}>
           <input
             type="text"
-            value={registerUserName} // Sử dụng state riêng cho đăng ký
-            onChange={(e) => setRegisterUserName(e.target.value)} // Cập nhật state riêng cho đăng ký
+            value={registerUserName}
+            onChange={(e) => setRegisterUserName(e.target.value)}
             placeholder="Tên của bạn là gì?"
             aria-label="Your Name"
             autoComplete="given-name"
@@ -96,11 +106,20 @@ const Intro = () => {
           />
           <input
             type="password"
-            value={registerPassword} // Sử dụng state riêng cho đăng ký
-            onChange={(e) => setRegisterPassword(e.target.value)} // Cập nhật state riêng cho đăng ký
+            value={registerPassword}
+            onChange={(e) => setRegisterPassword(e.target.value)}
             placeholder="Mật khẩu"
             aria-label="Your Password"
             autoComplete="new-password"
+            required
+          />
+          {/* Trường xác nhận mật khẩu */}
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Xác nhận mật khẩu"
+            aria-label="Confirm Password"
             required
           />
           <button type="submit" className="btn btn--dark">
