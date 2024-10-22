@@ -12,8 +12,8 @@ app.use(express.json());
 
 // Kết nối đến MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
 });
 
 // Mô hình User
@@ -27,7 +27,7 @@ const User = mongoose.model('User', UserSchema);
 // Đăng ký
 app.post('/register', async (req, res) => {
   const { userName, password } = req.body;
-  
+
   // Mã hóa mật khẩu
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -43,7 +43,7 @@ app.post('/register', async (req, res) => {
 // Đăng nhập
 app.post('/login', async (req, res) => {
   const { userName, password } = req.body;
-  
+
   const user = await User.findOne({ userName });
   if (!user) {
     return res.status(400).json({ error: 'Invalid username or password' });
